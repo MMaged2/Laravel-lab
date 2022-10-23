@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
+use App\Models\User;
 
 
 /*
@@ -20,9 +21,13 @@ Route::get('/', function () {
 });
 Route::get('posts', [PostController::class, 'index'])->name('posts.index');
 Route::get('posts/create', [PostController::class, 'create'])->name('posts.create');
-Route::get('posts/update', [PostController::class, 'update'])->name('posts.update');
-Route::get('/posts/delete', [PostController::class, 'delete'])->name('posts.delete');
-Route::get('/posts/show', [PostController::class, 'show'])->name('posts.show');
+Route::put('posts/{post}', [PostController::class, 'update'])->name('posts.update');
+Route::delete('/posts/{post}', [PostController::class, 'delete'])->name('posts.delete');
 Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
-// Route::get('/posts/{post}', [PostController::class, 'show'])->name('posts.show');
+Route::get('/posts/{post}', [PostController::class, 'show'])->name('posts.show');
 
+Route::get('test',function(){
+    $user = User::find(1);
+
+    dd($user->posts);
+});

@@ -20,12 +20,21 @@
         <tr>
             <td>{{$post['id']}}</th>
             <td>{{$post['title']}}</td>
+             @if($post->user)
+            <td>{{$post->user->name}}</td>
+            @else
+            <td>Not Defined</td>
+            @endif
             <td>{{$post['posted_by']}}</td>
             <td>{{$post['creation_date']}}</td>
             <td>
-                <a href="{{route('posts.show')}}" class="btn btn-info">View</a>
+                <a href="{{route('posts.show', $post['id'])}}" class="btn btn-info">View</a>
                 <a href="{{route('posts.update')}}" class="btn btn-primary">Edit</a>
-                <a href="{{route('posts.delete')}}" class="btn btn-danger">Delete</a>
+                <form action="Post" action="{{route('posts.delete',['post'=> $post->id])}}">
+                    @method('DELETE')
+                    @csrf
+                <button class="btn btn-danger" type="submit">Delete</button>
+                </form>
             </td>
         </tr>
         @endforeach
