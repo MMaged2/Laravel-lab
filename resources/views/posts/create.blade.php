@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 @section('title') create @endsection
 @section('content')
 <form method="POST" action="{{route('posts.store')}}">

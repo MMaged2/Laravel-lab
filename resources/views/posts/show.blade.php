@@ -1,35 +1,33 @@
 @extends('layouts.app')
-
-@section('title') create @endsection
+@section('title') Show @endsection
 @section('content')
-<table class="table mb-5">
+<table class="table mt-5">
     <thead>
         <th class="table-active" b4span colspan="2">Post Info</th>
     </thead>
     <tbody>
-
         <tr>
-            <th scope="row">Title:-</th>
+            <th scope="row">Title:- {{$post['title']}}</th>
         </tr>
         <tr>
-            <th scope="row">Description:-</th>
+            <th scope="row">Description:- {{$post['description']}}</th>
         </tr>
     </tbody>
 </table>
-<table class="table">
+<table class="table mt-5">
     <thead>
-        <th class="table-active" b4span colspan="2">Post Info</th>
+        <th class="table-active" b4span colspan="2">Post Creator Info</th>
     </thead>
     <tbody>
 
         <tr>
-            <th scope="row">Name:- </th>
+            <th scope="row">Name:- {{$post->user->name}}</th>
         </tr>
         <tr>
-            <th scope="row">Email:-</th>
+            <th scope="row">Email:- {{$post->user->email}}</th>
         </tr>
         <tr>
-            <th scope="row">Created At:- </th>
+            <th scope="row">Created At:- {{$post->user->created_at}}</th>
         </tr>
 
     </tbody>

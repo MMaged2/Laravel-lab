@@ -12,12 +12,6 @@ class PostController extends Controller
     {
 
         $allPosts = Post::all();
-        // $allPosts = [
-        //     ['id' => 1, 'title' => 'laravel is cool', 'posted_by' => 'Ahmed', 'creation_date' => '2022-10-22'],
-        //     ['id' => 2, 'title' => 'PHP deep dive', 'posted_by' => 'Mohamed', 'creation_date' => '2022-10-15'],
-        //     ['id' => 3, 'title' => 'Day1 Laravel lab', 'posted_by' => 'Mohamed Maged', 'creation_date' => '2022-10-22'],
-
-        // ];
 
         return view('posts.index', [
             'posts' => $allPosts
@@ -31,30 +25,51 @@ class PostController extends Controller
         return view('posts.create',[
             'allUsers' => $allUsers
         ]);
-    }
-    public function update()
-    {
-        return view('posts.update');
-    }
-    
-    public function delete($post)
-    {
+        // return 'we are in create now'; 
 
-        POST::where('id',$post)->delete();
-        // return view('posts.delete');
     }
-    // public function show()
-    // {
-        
-    //      return view('posts.show');
-    // }
+
+
+
+function update($postId, Request $request){   
+
+       
+           $post = Post::where('id',$postId)->update([
+                'title' => $request->title,
+                'description' => $request->description,
+                'user_id' => $request->user_id,
+                
+            ]);
+
+            return redirect()->route('posts.index');
+      
+    }
+
+
+
+    
+    
+    function edit($postId){
+        $Users = User::all();
+        $post = Post::find($postId);
+
+        return view('Posts.edit',[
+            'allUsers' => $Users,'post'=>$post
+        ]);
+    }
+
+    public function destroy($postId)
+    {
+        $post = Post::where('id',$postId)->delete();
+
+    }
+   
     public function show($postId)
     {
-        $arr = [
-            ['id' => 1 , 'category' => 'test']
-        ];
+        
         $post = Post::find($postId);
-        return 'we are in show now'; 
+        // return 'we are in show now'; 
+        return view('posts.show',['post'=>$post]);
     }
 
 

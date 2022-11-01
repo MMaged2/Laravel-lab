@@ -1,6 +1,5 @@
 @extends('layouts.app')
-
-@section('title') Index @endsection
+@section('title') Home @endsection
 @section('content')
 <div class="text-center">
     <a href="{{route('posts.create')}}" class="mt-4 btn btn-success">Create Post</a>
@@ -25,13 +24,13 @@
             @else
             <td>Not Defined</td>
             @endif
-            <td>{{$post['posted_by']}}</td>
-            <td>{{$post['creation_date']}}</td>
+            <td>{{$post->user->created_at}}</td>
             <td>
                 <a href="{{route('posts.show', $post['id'])}}" class="btn btn-info">View</a>
-                <a href="{{route('posts.update')}}" class="btn btn-primary">Edit</a>
-                <form action="Post" action="{{route('posts.delete',['post'=> $post->id])}}">
-                    @method('DELETE')
+                <a href="{{route('posts.edit',$post['id'])}}" class="btn btn-primary">Edit</a>
+                <!-- <a href="{{route('posts.destroy',$post['id'])}}" class="btn btn-danger">Delete</a> -->
+
+                <form  action="{{route('posts.destroy',$post['id'])}}">
                     @csrf
                 <button class="btn btn-danger" type="submit">Delete</button>
                 </form>
