@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Models\User;
+use Auth\LoginController;
 
 
 /*
@@ -26,7 +27,7 @@ Route::get('/', function () {
 // Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
 // Route::get('/posts/{post}', [PostController::class, 'show'])->name('posts.show');
 
-Route::resource('posts', PostController::class);
+Route::resource('posts', PostController::class)->middleware('auth');
 
 
 
@@ -35,3 +36,6 @@ Route::get('test',function(){
 
     dd($user->posts);
 });
+Auth::login($user);
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

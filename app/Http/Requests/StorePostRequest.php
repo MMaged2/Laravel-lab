@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+
 class StorePostRequest extends FormRequest
 {
     /**
@@ -24,7 +25,19 @@ class StorePostRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'title' => 'required|min:3',
+            'description' => 'required|min:10', 
+            'user_id' =>'exists:posts',
         ];
     }
+
+    public function messages()
+{
+    return [
+           'title.required' => 'Required Title',
+            'title.min' => 'Title must be > 3',
+            'description.required'=>'Required Description',
+            'description.min'=>'Description must be > 10',
+    ];
+}
 }

@@ -1,8 +1,8 @@
 <?php
-
 namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\User;
+use App\Http\Requests\StorePostRequest;
 
 use Illuminate\Http\Request;
 
@@ -45,10 +45,6 @@ function update($postId, Request $request){
       
     }
 
-
-
-    
-    
     function edit($postId){
         $Users = User::all();
         $post = Post::find($postId);
@@ -73,16 +69,18 @@ function update($postId, Request $request){
     }
 
 
-    public function store()
+    public function store(StorePostRequest $request)
     {
-         $data = request()->all();
+        
+        $data = $request->all();
 
+       
         Post::create([
             'title' => request()->title,
             'description' => $data['description'],
             'user_id' => $data['post_creator'],
-        ]); 
-        return to_route('posts.index');
-        // dd('we are storing the data');
+        ]);
+
+        return redirect()->route('posts.index');
     }
 }
