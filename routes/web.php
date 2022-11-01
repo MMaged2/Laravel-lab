@@ -20,12 +20,7 @@ use Auth\LoginController;
 Route::get('/', function () {
     return view('welcome');
 });
-// Route::get('posts', [PostController::class, 'index'])->name('posts.index');
-// Route::get('posts/create', [PostController::class, 'create'])->name('posts.create');
-// Route::put('posts/{post}', [PostController::class, 'update'])->name('posts.update');
-// Route::delete('/posts/{post}', [PostController::class, 'delete'])->name('posts.delete');
-// Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
-// Route::get('/posts/{post}', [PostController::class, 'show'])->name('posts.show');
+
 
 Route::resource('posts', PostController::class)->middleware('auth');
 
@@ -36,6 +31,35 @@ Route::get('test',function(){
 
     dd($user->posts);
 });
-Auth::login($user);
+
+Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+use Laravel\Socialite\Facades\Socialite;
+ 
+Route::get('/auth/redirect', function () {
+    return Socialite::driver('github')->redirect();
+})->name('auth.github');
+ 
+Route::get('/auth/callback', function () {
+    $githubUser = Socialite::driver('github')->user();
+
+    $user = User::where('email', $githubUser->email)->first();
+    if($user) {
+        $user->update([
+            'name' => $githubUser->name,
+        ]);
+    } else {
+        $user = User::create([
+            'email' => $githubUser->email,
+            'name' => $githubUser->name,
+        ]);
+    }
+ 
+    Auth::login($user);
+ 
+    return redirect('/dashboard');
+    dd($user);
+});
